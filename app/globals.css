@@ -1,0 +1,26 @@
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #111111; 
+
+}
+
+:root[data-theme="dark"] {
+  --bg: #111111;
+  --text: #f5f5f5;
+
+}
+
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 4px;
+  min-height: 1.2em;
+}
