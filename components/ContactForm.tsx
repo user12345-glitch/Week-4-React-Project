@@ -50,7 +50,7 @@ export default function ContactForm() {
 
         <div>
           <label htmlFor="email">Email Address</label>
-          <input id="email" type="email" placeholder="jane@example.com" />
+          <input id="email" type="email" placeholder="user@example.com" />
           <span id="email-error" className="error-msg" role="alert" aria-live="polite"></span>
         </div>
 
