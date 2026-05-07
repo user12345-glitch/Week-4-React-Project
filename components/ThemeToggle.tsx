@@ -1,45 +1,28 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const [theme, setTheme] = useState("light");
 
-  // This runs in the browser only — safe to access DOM
-  if (typeof window !== "undefined") {
-    // On first load, read saved preference OR system preference
-    const saved = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initial = saved ? saved : prefersDark ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", initial);
-  }
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
 
-  function handleClick() {
-    const current = document.documentElement.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
+    setTheme(savedTheme);
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
 
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
+  function toggleTheme() {
+    const newTheme = theme === "light" ? "dark" : "light";
 
-    // Update button label for accessibility
-    if (btnRef.current) {
-      btnRef.current.setAttribute(
-        "aria-label",
-        next === "dark" ? "Switch to light mode" : "Switch to dark mode"
-      );
-      btnRef.current.textContent =
-        next === "dark" ? "Light Mode" : "Dark Mode";
-    }
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
   }
 
   return (
-    <button
-      ref={btnRef}
-      onClick={handleClick}
-      aria-label="Switch to dark mode"
-      style={{ cursor: "pointer" }}
-    >
-      Dark Mode
+    <button onClick={toggleTheme}>
+      {theme === "light" ? " Dark Mode" : "Light Mode"}
     </button>
   );
 }

@@ -1,72 +1,156 @@
 "use client";
-export default function ContactForm() {
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault(); // CRITICAL: stops page reload
 
-    const form = e.currentTarget;
-    const nameInput = form.querySelector<HTMLInputElement>("#name")!;
-    const emailInput = form.querySelector<HTMLInputElement>("#email")!;
-    const messageInput = form.querySelector<HTMLTextAreaElement>("#message")!;
-    const successMsg = document.getElementById("form-success")!;
+import { useState } from "react";
+
+export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { id, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  }
+
+  function validate() {
+    const newErrors = {
+      name: "",
+      email: "",
+      message: "",
+    };
+
     let valid = true;
 
-    // Clear previous errors
-    document.querySelectorAll(".error-msg").forEach((el) => (el.textContent = ""));
-
-    // Validate name
-    if (nameInput.value.trim() === "") {
-      document.getElementById("name-error")!.textContent = "Name is required.";
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required.";
       valid = false;
     }
 
-    // Validate email using browser built-in validity API
-    if (!emailInput.validity.valid) {
-      document.getElementById("email-error")!.textContent =
-        "Please enter a valid email address.";
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
       valid = false;
     }
 
-    // Validate message length
-    if (messageInput.value.trim().length < 10) {
-      document.getElementById("message-error")!.textContent =
+    if (formData.message.trim().length < 10) {
+      newErrors.message =
         "Message must be at least 10 characters.";
       valid = false;
     }
 
-    if (valid) {
-      form.style.display = "none";
-      successMsg.style.display = "block";
-    }
+    setErrors(newErrors);
+
+    return valid;
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    setSubmitted(true);
+
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
+
+    setErrors({
+      name: "",
+      email: "",
+      message: "",
+    });
+  }
+
+  if (submitted) {
+    return (
+      <div className="card">
+        <h2>Thank you! 🎉</h2>
+
+        <p>Your message has been successfully sent.</p>
+
+        <button onClick={() => setSubmitted(false)}>
+          Send another message
+        </button>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="card">
+      <p>
+        Fill out the form below and we will get back to you shortly.
+      </p>
+
       <form onSubmit={handleSubmit} noValidate>
         <div>
           <label htmlFor="name">Full Name</label>
-          <input id="name" type="text" placeholder="Jane Doe" />
-          <span id="name-error" className="error-msg" role="alert" aria-live="polite"></span>
+
+          <input
+            id="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Jane Doe"
+          />
+
+          {errors.name && (
+            <span className="error-msg">{errors.name}</span>
+          )}
         </div>
 
         <div>
           <label htmlFor="email">Email Address</label>
-          <input id="email" type="email" placeholder="user@example.com" />
-          <span id="email-error" className="error-msg" role="alert" aria-live="polite"></span>
+
+          <input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="user@example.com"
+          />
+
+          {errors.email && (
+            <span className="error-msg">{errors.email}</span>
+          )}
         </div>
 
         <div>
           <label htmlFor="message">Message</label>
-          <textarea id="message" rows={5} placeholder="Write your message here..."></textarea>
-          <span id="message-error" className="error-msg" role="alert" aria-live="polite"></span>
+
+          <textarea
+            id="message"
+            rows={5}
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="Write your message here..."
+          />
+
+          {errors.message && (
+            <span className="error-msg">{errors.message}</span>
+          )}
         </div>
 
         <button type="submit">Send Message</button>
       </form>
-
-      <div id="form-success" style={{ display: "none" }} role="status" aria-live="polite">
-        <h2>Thank you! Your message has been received.</h2>
-        <p>We will get back to you within 1-2 business days.</p>
-      </div>
     </div>
   );
 }

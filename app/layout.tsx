@@ -1,5 +1,7 @@
 import "./globals.css";
-import Nav from "../components/Nav";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function RootLayout({
   children,
@@ -9,8 +11,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
-        {children}
+        <Header />
+
+        <main className="min-h-screen p-5">
+          {children}
+        </main>
+
+        <Footer />
       </body>
     </html>
   );

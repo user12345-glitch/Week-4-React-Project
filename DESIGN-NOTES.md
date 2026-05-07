@@ -24,3 +24,38 @@ State to track:
 - We need to keep track of the error messages, for each field and show them to the user.
 - We also need to keep track of whether the form has been submitted which we can do by hiding the form and showing a success message.
 
+
+# Week 4: Component Architecture
+app/
+│
+├── contact/
+│   └── page.tsx
+│
+├── globals.css
+├── layout.tsx
+├── page.tsx
+│
+components/
+│
+├── Header.tsx
+├── Footer.tsx
+├── Nav.tsx
+├── Card.tsx
+├── ThemeToggle.tsx
+├── ContactForm.tsx
+
+## State Ownership
+
+ThemeToggle
+- Holds theme state using useState
+- Uses useEffect with localStorage
+- Client Component
+
+ContactForm
+- Holds form state and validation
+- Controlled inputs
+- Client Component
+
+Header/Footer/Nav/Card
+- Stateless
+- Server Components
