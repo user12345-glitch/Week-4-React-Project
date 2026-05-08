@@ -14,8 +14,8 @@ export default function Home() {
       />
 
       <Card
-        title="React Learning"
-        description="The application demonstrates props, components, and state management."
+        title="Objective"
+        description="The app demonstrates props, components, and state management."
       />
     </main>
   );

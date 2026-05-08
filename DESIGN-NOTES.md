@@ -24,38 +24,48 @@ State to track:
 - We need to keep track of the error messages, for each field and show them to the user.
 - We also need to keep track of whether the form has been submitted which we can do by hiding the form and showing a success message.
 
+# DESIGN NOTES
 
-# Week 4: Component Architecture
-app/
-│
-├── contact/
-│   └── page.tsx
-│
-├── globals.css
-├── layout.tsx
-├── page.tsx
-│
-components/
-│
-├── Header.tsx
-├── Footer.tsx
-├── Nav.tsx
-├── Card.tsx
-├── ThemeToggle.tsx
-├── ContactForm.tsx
+## Week 4: Component Architecture
+
+This project was refactored into reusable React components to improve maintainability, readability, and code organization.
+
+## Components Used
+
+- Nav
+- ThemeToggle
+- Card
+- ContactForm
+
+## Component Tree
+
+App
+├── Header
+├── Nav
+│   └── ThemeToggle
+├── Home Page
+│   ├── Card
+│   ├── Card
+│   └── Card
+├── Contact Page
+│   └── ContactForm
+└── Footer
 
 ## State Ownership
 
-ThemeToggle
-- Holds theme state using useState
-- Uses useEffect with localStorage
-- Client Component
+The ThemeToggle component manages theme state using React useState and localStorage.
 
-ContactForm
-- Holds form state and validation
-- Controlled inputs
-- Client Component
+The ContactForm component manages:
+- form input values
+- validation errors
+- submission state
 
-Header/Footer/Nav/Card
-- Stateless
-- Server Components
+State was kept inside the components where it is needed to avoid unnecessary prop drilling.
+
+## Reusable Components
+
+The Card component was reused multiple times on the homepage using different prop values.
+
+## Styling Approach
+
+Global CSS variables were used to support light and dark mode themes consistently across the application.
