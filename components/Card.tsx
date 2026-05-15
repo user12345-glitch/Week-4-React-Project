@@ -3,7 +3,9 @@ type CardProps = {
   description: string;
 };
 
-export default function Card({ title, description }: CardProps) {
+export default function Card(
+  { title, 
+    description }: CardProps) {
   return (
     <article className="card">
       <h3>{title}</h3>
