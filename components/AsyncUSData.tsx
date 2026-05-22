@@ -112,9 +112,9 @@ export default function AsyncDemo() {
             </p>
 
             <p>
-              <strong>Currency:</strong>{" "}
-              {Object.values(data.currencies)[0].name}
-            </p>
+             <strong>Currency:</strong>{" "}
+            {(Object.values(data.currencies) as any[])[0]?.name}
+             </p>
 
             <p>
               <strong>Time Zone:</strong> {data.timezones[0]}
