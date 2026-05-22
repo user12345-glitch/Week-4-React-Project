@@ -69,3 +69,28 @@ The Card component was reused multiple times on the homepage using different pro
 ## Styling Approach
 
 Global CSS variables were used to support light and dark mode themes consistently across the application.
+
+# Week 7: Async & Loading States
+
+## API Chosen
+REST Countries API
+
+## Country Selected
+United States of America (U.S.)
+
+## Why I Chose This API
+I selected the REST Countries API because it is free, reliable, easy to use, and does not require authentication keys.
+
+## Features Implemented
+- Async data fetching using async/await
+- Loading skeleton screen
+- Error handling state
+- Success state rendering
+- Refresh button
+- Accessibility support using prefers-reduced-motion
+
+## Technologies Used
+- Next.js
+- React
+- Tailwind CSS
+- REST Countries API 

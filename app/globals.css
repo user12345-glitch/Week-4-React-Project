@@ -1,3 +1,4 @@
+
 :root[data-theme="light"] {
   --bg: #ffffff;
   --text: #111111;
@@ -30,7 +31,6 @@ header {
   background-color: var(--header-bg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   font-weight: 600;
-
   text-align: center;
 }
 
@@ -49,6 +49,7 @@ header h1 {
   display: flex;
   justify-content: center;
 }
+
 .nav-list {
   list-style: none;
   display: flex;
@@ -170,6 +171,29 @@ footer {
   align-items: center;
 }
 
+@keyframes premiumFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(6px);
+  }
+
+  60% {
+    opacity: 1;
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-premiumFadeIn {
+  animation: premiumFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @media (max-width: 480px) {
   .card {
     width: calc(100% - 20px);
@@ -183,5 +207,16 @@ footer {
   .nav-list {
     flex-wrap: wrap;
     gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

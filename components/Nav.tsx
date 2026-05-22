@@ -8,8 +8,15 @@ export default function Nav() {
         <li>
           <Link href="/">Home</Link>
         </li>
+
         <li>
           <Link href="/contact">Contact Us</Link>
+        </li>
+
+        <li>
+          <Link href="/async-us-data">
+            U.S. API Dashboard
+          </Link>
         </li>
 
         <li>
