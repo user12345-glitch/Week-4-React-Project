@@ -20,7 +20,7 @@ export default function AsyncDemo() {
       setError(null);
 
       const res = await fetch(
-        "https://restcountries.com/v3.1/name/unitedddd"
+        "https://restcountries.com/v3.1/name/united states"
       );
 
       await new Promise((r) => setTimeout(r, 3000));
