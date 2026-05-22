@@ -20,10 +20,10 @@ export default function AsyncDemo() {
       setError(null);
 
       const res = await fetch(
-        "https://restcountries.com/v3.1/name/united states"
+        "https://restcountries.com/v3.1/name/unitedddd"
       );
 
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((r) => setTimeout(r, 3000));
 
       if (!res.ok) {
         throw new Error(`fetch failed`);
