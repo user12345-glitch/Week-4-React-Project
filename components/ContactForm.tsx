@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createMessage } from "../app/actions";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -50,8 +51,7 @@ export default function ContactForm() {
     }
 
     if (formData.message.trim().length < 10) {
-      newErrors.message =
-        "Message must be at least 10 characters.";
+      newErrors.message = "Message must be at least 10 characters.";
       valid = false;
     }
 
@@ -60,33 +60,43 @@ export default function ContactForm() {
     return valid;
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!validate()) return;
 
-    setSubmitted(true);
+    try {
+      const formDataObj = new FormData();
 
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+      formDataObj.append("name", formData.name);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("message", formData.message);
 
-    setErrors({
-      name: "",
-      email: "",
-      message: "",
-    });
+      await createMessage(formDataObj);
+
+      setSubmitted(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+      setErrors({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (submitted) {
     return (
       <div className="card">
         <h2>Thank you! 🎉</h2>
-
         <p>Your message has been successfully sent.</p>
-
         <button onClick={() => setSubmitted(false)}>
           Send another message
         </button>
@@ -96,14 +106,11 @@ export default function ContactForm() {
 
   return (
     <div className="card">
-      <p>
-        Fill out the form below and we will get back to you shortly.
-      </p>
+      <p>Fill out the form below and we will get back to you shortly.</p>
 
       <form onSubmit={handleSubmit} noValidate>
         <div>
           <label htmlFor="name">Full Name</label>
-
           <input
             id="name"
             type="text"
@@ -111,15 +118,11 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Jane Doe"
           />
-
-          {errors.name && (
-            <span className="error-msg">{errors.name}</span>
-          )}
+          {errors.name && <span className="error-msg">{errors.name}</span>}
         </div>
 
         <div>
           <label htmlFor="email">Email Address</label>
-
           <input
             id="email"
             type="email"
@@ -127,15 +130,11 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="user@example.com"
           />
-
-          {errors.email && (
-            <span className="error-msg">{errors.email}</span>
-          )}
+          {errors.email && <span className="error-msg">{errors.email}</span>}
         </div>
 
         <div>
           <label htmlFor="message">Message</label>
-
           <textarea
             id="message"
             rows={5}
@@ -143,7 +142,6 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Write your message here..."
           />
-
           {errors.message && (
             <span className="error-msg">{errors.message}</span>
           )}
