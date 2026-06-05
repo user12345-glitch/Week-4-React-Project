@@ -30,6 +30,10 @@ export default async function MessagesPage() {
               <p>
                 <strong>Message:</strong> {msg.message}
               </p>
+              <p>
+                <strong>Sent:</strong>{" "}
+                {new Date(msg.createdAt).toLocaleString()}
+              </p>
             </div>
           ))}
         </div>
