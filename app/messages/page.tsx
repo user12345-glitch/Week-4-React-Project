@@ -6,6 +6,13 @@ const prisma = new PrismaClient();
 
 export default async function MessagesPage() {
   const messages = await prisma.message.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      message: true,
+      createdAt: true,
+    },
     orderBy: {
       id: "desc",
     },
