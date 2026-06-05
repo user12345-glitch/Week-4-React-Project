@@ -12,23 +12,15 @@ export default async function MessagesPage() {
   });
 
   return (
-    <main style={{ padding: "20px" }}>
+    <main className="messages-page">
       <h1>All Submitted Contact Form Messages</h1>
 
       {messages.length === 0 ? (
         <p>No messages yet.</p>
       ) : (
-        <div>
+        <div className="messages-container">
           {messages.map((msg) => (
-            <div
-              key={msg.id}
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                marginBottom: "10px",
-                borderRadius: "5px",
-              }}
-            >
+            <div key={msg.id} className="message-card">
               <p>
                 <strong>Name:</strong> {msg.name}
               </p>

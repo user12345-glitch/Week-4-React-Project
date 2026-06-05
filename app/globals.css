@@ -220,13 +220,23 @@ footer {
     scroll-behavior: auto !important;
   }
 }
-.messages-container {
+
+.messages-page {
   padding: 20px;
 }
 
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .message-card {
-  border: 1px solid #ddd;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.message-card p {
+  margin: 5px 0;
 }
