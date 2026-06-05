@@ -94,3 +94,33 @@ I selected the REST Countries API because it is free, reliable, easy to use, and
 - React
 - Tailwind CSS
 - REST Countries API 
+
+# Week 8: Database & Backend Integration
+## Database Chosen
+- Neon PostgreSQL (Cloud Database)
+## Why I Chose This Database
+- I selected Neon PostgreSQL because it is free and easy to set up
+- It works well with Prisma and Next.js
+- It integrates smoothly with Vercel for deployment
+- It supports serverless applications
+## Features Implemented
+- Connected Next.js project to a cloud PostgreSQL database
+- Created database schema using Prisma ORM
+- Implemented Server Actions for handling form submissions
+- Stored user messages in the database
+- Built a Messages page to display stored data
+- Used environment variables to securely store DATABASE_URL
+- Built full backend workflow from form submission to database display
+## Database Schema Used
+- id - unique identifier for each message
+- name - sender’s full name
+- email - sender’s email address
+- body - message content
+- createdAt - timestamp when message was created
+## Technologies Used
+- Next.js
+- Prisma ORM
+- Neon PostgreSQL
+- Server Actions (Next.js)
+- Server Components
+- Vercel Deployment Platform
