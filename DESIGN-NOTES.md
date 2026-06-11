@@ -125,5 +125,10 @@ I selected the REST Countries API because it is free, reliable, easy to use, and
 - Server Components
 - Vercel Deployment Platform
 
-## week 9
-Reduced unused JavaScript by ensuring components that do not require client-side interactivity remain Server Components. This decreases the amount of JavaScript sent to the browser and improves page load performance.
+## Week 9: Authentication, Security, and Performance
+
+This week, I added user authentication to the Country Explorer website using Auth.js and GitHub OAuth. Users can now sign in with their GitHub accounts, and the Messages page is protected so that only logged-in users can view submitted messages.
+
+I also improved the security of the application by using Prisma's built-in protection against SQL injection attacks and by adding security headers to the website configuration. These changes help make the application safer for users.
+
+To improve performance, I ran a Lighthouse audit on the live website and reviewed the recommendations. I added website metadata to improve SEO and continued using Server Components wherever possible to reduce unnecessary JavaScript. After making these improvements, the website achieved Lighthouse scores of 98 for Performance, 98 for Accessibility, 100 for Best Practices, and 100 for SEO.
