@@ -58,10 +58,12 @@ export default function CountryDashboard() {
     <div className="min-h-screen p-10 bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8">
 
-        <h1 className="text-4xl font-bold mb-6">
+        <h1 >
           Country Dashboard
         </h1>
-
+<p>Explore detailed information about countries across the globe. 
+  Search by country name, compare regions, 
+  view population statistics, and learn more about the places that shape our world.</p>
         <div className="flex gap-2 mb-6">
           <input
             value={input}

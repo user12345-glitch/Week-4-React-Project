@@ -106,7 +106,9 @@ export default function ContactForm() {
 
   return (
     <div className="card">
-      <p>Fill out the form below and we will get back to you shortly.</p>
+      <p>Have a suggestion or notice something missing? 
+        Kindly share feedback and help improve the platform for everyone.
+        Fill out the form below and we will get back to you shortly.</p>
 
       <form onSubmit={handleSubmit} noValidate>
         <div>
