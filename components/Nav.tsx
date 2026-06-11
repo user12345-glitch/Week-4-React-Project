@@ -15,7 +15,7 @@ export default function Nav() {
 
         <li>
           <Link href="/async-us-data">
-            U.S. API Dashboard
+            Country API Dashboard
           </Link>
         </li>
 

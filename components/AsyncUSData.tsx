@@ -1,126 +1,155 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function AsyncDemo() {
+export default function CountryDashboard() {
+  const [input, setInput] = useState("kenya");
   const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [borders, setBorders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
-  async function fetchData(isRefresh = false) {
+  async function fetchCountry(name?: string) {
     try {
-      if (isRefresh) {
-        setRefreshing(true);
-        setLoading(true);
-      } else {
-        setLoading(true);
+      const query = (name || input).trim();
+
+      if (!query) {
+        setError("Enter a country name");
+        return;
       }
 
+      setLoading(true);
       setError(null);
+      setBorders([]);
 
       const res = await fetch(
-        "https://restcountries.com/v3.1/name/united states"
+        `https://restcountries.com/v3.1/name/${encodeURIComponent(query)}?fullText=true`
       );
 
-      await new Promise((r) => setTimeout(r, 3000));
-
       if (!res.ok) {
-        throw new Error(`fetch failed`);
+        throw new Error("Country not found");
       }
 
       const json = await res.json();
-      setData(json[0]);
+      const country = json[0];
+
+      setData(country);
+
+      if (country?.borders?.length) {
+        const borderRes = await fetch(
+          `https://restcountries.com/v3.1/alpha?codes=${country.borders.join(",")}`
+        );
+
+        if (borderRes.ok) {
+          const borderJson = await borderRes.json();
+          setBorders(borderJson);
+        }
+      }
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Something went wrong");
       setData(null);
+      setBorders([]);
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const showSkeleton = loading;
-
   return (
     <div className="min-h-screen p-10 bg-gray-100">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
-        <div className="flex items-start justify-between mb-6">
-          <h1 className="text-4xl font-bold">
-            U.S. Country Information
-          </h1>
+      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8">
+
+        <h1 className="text-4xl font-bold mb-6">
+          Country Dashboard
+        </h1>
+
+        <div className="flex gap-2 mb-6">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Search country..."
+            className="w-full border px-4 py-2 rounded-lg"
+          />
 
           <button
-            onClick={() => fetchData(true)}
-            disabled={refreshing || loading}
-            aria-busy={refreshing}
-            className="bg-black text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50"
+            onClick={() => fetchCountry()}
+            className="bg-black text-white px-4 py-2 rounded-lg"
           >
-            {refreshing ? "Refreshing…" : "Refresh Data"}
+            Search
           </button>
         </div>
 
-        {showSkeleton && (
-          <div className="space-y-4">
-            <div className="h-6 w-48 bg-gray-300 rounded animate-pulse" />
-            <div className="h-4 w-full bg-gray-300 rounded animate-pulse" />
-            <div className="h-4 w-3/4 bg-gray-300 rounded animate-pulse" />
-            <div className="h-40 w-56 bg-gray-300 rounded animate-pulse" />
+        {error && (
+          <div className="bg-red-100 text-red-700 p-4 rounded mb-6">
+            {error}
           </div>
         )}
 
-        {error && !loading && (
-          <div
-            role="alert"
-            className="bg-red-100 text-red-700 p-4 rounded mb-6"
-          >
-            Error: {error}
+        {loading && (
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 w-48 bg-gray-300 rounded" />
+            <div className="h-40 w-64 bg-gray-300 rounded" />
           </div>
         )}
 
         {data && !loading && (
-          <div className="space-y-4 animate-premiumFadeIn">
+          <div className="space-y-6">
+
             <img
-              src={data.flags.png}
-              alt="USA Flag"
-              className="w-56 rounded shadow"
+              src={data?.flags?.png}
+              className="w-64 rounded shadow"
+              alt="flag"
             />
 
-            <p>
-              <strong>Country:</strong> {data.name.common}
-            </p>
+            <div>
+              <p><strong>Country:</strong> {data?.name?.common}</p>
+              <p><strong>Official:</strong> {data?.name?.official}</p>
+              <p><strong>Capital:</strong> {data?.capital?.[0]}</p>
+              <p><strong>Region:</strong> {data?.region}</p>
+              <p><strong>Population:</strong> {data?.population?.toLocaleString()}</p>
+            </div>
 
-            <p>
-              <strong>Official Name:</strong> {data.name.official}
-            </p>
+            <div>
+              <h2 className="font-bold text-lg">Languages</h2>
+              <p>
+                {data?.languages
+                  ? Object.values(data.languages).join(", ")
+                  : "N/A"}
+              </p>
+            </div>
 
-            <p>
-              <strong>Capital City:</strong> {data.capital[0]}
-            </p>
+            <div>
+              <h2 className="font-bold text-lg">Currencies</h2>
+              <p>
+                {data?.currencies
+                  ? Object.values(data.currencies as any)
+                      .map((c: any) => `${c.name} (${c.symbol})`)
+                      .join(", ")
+                  : "N/A"}
+              </p>
+            </div>
 
-            <p>
-              <strong>Region:</strong> {data.region}
-            </p>
+            <div>
+              <h2 className="font-bold text-lg">Border Countries</h2>
 
-            <p>
-              <strong>Population:</strong>{" "}
-              {data.population.toLocaleString()}
-            </p>
+              {borders.length > 0 ? (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {borders.map((b) => (
+                    <span
+                      key={b.cca3}
+                      className="bg-gray-200 px-3 py-1 rounded-full text-sm"
+                    >
+                      {b.name.common}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p>No bordering countries</p>
+              )}
+            </div>
 
-            <p>
-             <strong>Currency:</strong>{" "}
-            {(Object.values(data.currencies) as any[])[0]?.name}
-             </p>
-
-            <p>
-              <strong>Time Zone:</strong> {data.timezones[0]}
-            </p>
           </div>
         )}
+
       </div>
     </div>
   );
