@@ -124,3 +124,6 @@ I selected the REST Countries API because it is free, reliable, easy to use, and
 - Server Actions (Next.js)
 - Server Components
 - Vercel Deployment Platform
+
+## week 9
+Reduced unused JavaScript by ensuring components that do not require client-side interactivity remain Server Components. This decreases the amount of JavaScript sent to the browser and improves page load performance.
