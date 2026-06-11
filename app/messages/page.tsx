@@ -1,10 +1,18 @@
 export const dynamic = "force-dynamic";
 
 import { PrismaClient } from "@prisma/client";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
 export default async function MessagesPage() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/api/auth/signin");
+  }
+
   const messages = await prisma.message.findMany({
     select: {
       id: true,
@@ -22,6 +30,10 @@ export default async function MessagesPage() {
     <main className="messages-page">
       <h1>All Submitted Contact Form Messages</h1>
 
+      <p>
+        Welcome, <strong>{session.user.name}</strong>
+      </p>
+
       {messages.length === 0 ? (
         <p>No messages yet.</p>
       ) : (
@@ -31,12 +43,15 @@ export default async function MessagesPage() {
               <p>
                 <strong>Name:</strong> {msg.name}
               </p>
+
               <p>
                 <strong>Email:</strong> {msg.email}
               </p>
+
               <p>
                 <strong>Message:</strong> {msg.message}
               </p>
+
               <p>
                 <strong>Sent:</strong>{" "}
                 {new Date(msg.createdAt).toLocaleString()}
